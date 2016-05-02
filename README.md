@@ -1,4 +1,5 @@
-# ReLOC: Pairwise registration by local orientation cues
+# ReLOC:
+# Pairwise registration by local orientation cues
 
 [ ![License] [license-image] ] [license]
 
@@ -18,10 +19,11 @@ http://www.vision.deis.unibo.it/research/78-cvlab/108-pairwiseregistrationbenchm
 Usage
 -----------
 An example can be found in [ReLOC_testmain.cpp](https://github.com/aliosciapetrelli/ReLOC/blob/master/ReLOC_testmain.cpp).
-The algorithm can be evaluated through the benchmark proposed in the same paper. The C++ source code of the benchmark can be downloaded from [here](https://github.com/aliosciapetrelli/Pairwise3DRegistrationEvaluation) and applied to ReLOC algorithm as explained in [ReLOC_benchmarkmain.cpp](https://github.com/aliosciapetrelli/ReLOC/blob/master/ReLOC_benchmarkmain.cpp).
+
+The algorithm can be evaluated through the benchmark proposed in the same paper. The C++ code of the benchmark can be downloaded from [here](https://github.com/aliosciapetrelli/Pairwise3DRegistrationEvaluation) and applied to ReLOC as explained in [ReLOC_benchmarkmain.cpp](https://github.com/aliosciapetrelli/ReLOC/blob/master/ReLOC_benchmarkmain.cpp).
 
 Dependencies
 -----------
-The framework requires [VTK](http://www.vtk.org/) and [Generalized-ICP](http://www.robots.ox.ac.uk/~avsegal/generalized_icp.html).
+The framework requires the [VTK](http://www.vtk.org/).
 
 The code has been tested with VTK 5.10 on Windows 7 and Microsoft Visual Studio 2010.
