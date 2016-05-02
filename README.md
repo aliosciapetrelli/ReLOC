@@ -14,7 +14,7 @@ C++ implementation of the pairwise 3D registration algorithm proposed in:
 
 Webpage
 -----------
-http://www.vision.deis.unibo.it/research/78-cvlab/108-pairwiseregistrationbenchmark
+http://www.vision.deis.unibo.it/research/78-cvlab/109-reloc
 
 Usage
 -----------
@@ -24,6 +24,6 @@ The algorithm can be evaluated through the benchmark proposed in the same paper.
 
 Dependencies
 -----------
-The framework requires the [VTK](http://www.vtk.org/).
+The framework requires the [VTK](http://www.vtk.org/) library.
 
 The code has been tested with VTK 5.10 on Windows 7 and Microsoft Visual Studio 2010.
