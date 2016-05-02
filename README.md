@@ -1,5 +1,5 @@
-# ReLOC:
-# Pairwise registration by local orientation cues
+# ReLOC
+## Pairwise registration by local orientation cues
 
 [ ![License] [license-image] ] [license]
 
