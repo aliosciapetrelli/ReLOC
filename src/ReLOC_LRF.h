@@ -159,7 +159,7 @@ namespace ReLOC
 		{
 			random = false;
 			numMinNeighbors = 5;
-			radius = 3;
+			radius = 3;   //5 in the paper
 			partitionRadius = 2;
 			excludedPointsRadius = 2;
 			partitionRadius_Hierarchical = 20;

@@ -392,8 +392,8 @@ namespace ReLOC
 		double* vStep = new double[nDims];
 		for(int bi = 0; bi < nDims; bi++)
 		{
-			vMin[bi] = bounds_ext[2*bi] - (bounds_ext[2*bi+1]-bounds_ext[2*bi])/2.0;
-			vMax[bi] = bounds_ext[2*bi+1] + (bounds_ext[2*bi+1]-bounds_ext[2*bi])/2.0;
+			vMin[bi] = bounds_ext[2*bi]; //- (bounds_ext[2*bi+1]-bounds_ext[2*bi])/2.0;
+			vMax[bi] = bounds_ext[2*bi+1]; //+ (bounds_ext[2*bi+1]-bounds_ext[2*bi])/2.0;
 			vStep[bi] = stepSize;
 		}
 

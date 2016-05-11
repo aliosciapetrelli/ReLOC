@@ -20,7 +20,7 @@ ReLOC::ReLOC::ReLOC():
 	m_houghSpace(NULL),
 	m_houghSigmaFactor(2.0f),
 	m_houghBinSizeInMeshRes(2.0f),
-	m_houghBBoxSizeFactor(1.4f)
+	m_houghBBoxSizeFactor(2.8f) //1.4 in the paper
 {
 }
 
