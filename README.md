@@ -22,8 +22,10 @@ An example can be found in [ReLOC_testmain.cpp](https://github.com/aliosciapetre
 
 The algorithm can be evaluated through the benchmark proposed in the same paper. The C++ code of the benchmark can be downloaded from [here](https://github.com/aliosciapetrelli/Pairwise3DRegistrationEvaluation) and applied to ReLOC as explained in [ReLOC_benchmarkmain.cpp](https://github.com/aliosciapetrelli/ReLOC/blob/master/ReLOC_benchmarkmain.cpp).
 
+The algorithm is going to be integrated in [PCL library](http://pointclouds.org/). Even if the implementation is not yet part of the official distribution, a provisional (but fully-working) version of PCL integrating ReLOC can be downloaded from [here](https://github.com/aliosciapetrelli/pcl/tree/ReLOC). [Pcl_ReLOC_benchmarkmain.cpp](https://github.com/aliosciapetrelli/ReLOC/blob/master/Pcl_ReLOC_benchmarkmain.cpp) explains how to apply the algorithm within the benchmark framework.
+
 Dependencies
 -----------
-The framework requires the [VTK](http://www.vtk.org/) library.
+The algorithm requires the [VTK](http://www.vtk.org/) library.
 
 The code has been tested with VTK 5.10 on Windows 7 and Microsoft Visual Studio 2010.
