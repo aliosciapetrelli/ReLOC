@@ -34,7 +34,7 @@ using namespace std;
 #include "vtkMath.h"
 #include "vtkPointData.h"
 //#include "vtkTriangle.h"
-
+#include <vtkVersion.h>
 
 
 void ReLOC::GetCentroid(vtkPolyData *polyData, float centroid[3])
@@ -1316,8 +1316,11 @@ void ReLOC::CalcMeshNormals(vtkPolyData *polyData, const double dFeatureAngle)
 		polydataNormals->SplittingOn();
 		polydataNormals->SetFeatureAngle(dFeatureAngle);
 	}
-	//vtkAlgorithmOutput* prova = polyData->GetProducerPort();
-	//polydataNormals->SetInputConnection(prova);
+#if VTK_MAJOR_VERSION <= 5
+	polydataNormals->SetInput(polyData);
+#else
+	polydataNormals->SetInputData(polyData);
+#endif
 	polydataNormals->SetInput(polyData);
 	polydataNormals->ComputePointNormalsOn();
 	polydataNormals->AutoOrientNormalsOff();
@@ -1354,7 +1357,11 @@ void ReLOC::CleanPolyData(vtkPolyData *polyData, const bool mergePoints, const d
 	}
 
 	vtkCleanPolyData* cleanPolyData = vtkCleanPolyData::New();
+#if VTK_MAJOR_VERSION <= 5
 	cleanPolyData->SetInputConnection(polyData->GetProducerPort());
+#else
+	cleanPolyData->SetInputData(polyData);
+#endif
 	cleanPolyData->SetAbsoluteTolerance(tolerance);
 	cleanPolyData->SetPointMerging(mergePoints);
 	cleanPolyData->ToleranceIsAbsoluteOn();

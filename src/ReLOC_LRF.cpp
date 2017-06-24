@@ -432,7 +432,7 @@ void ReLOC::I3DDetector::load(const char *path, vector<string> &vFileNames, cons
 
 /// **************************************** FlatPoints3DDetector ****************************************
 
-ReLOC::FlatPoints3DDetector::FlatPoints3DDetector(bool random, double radius, double partitionRadius, double excludedPointsRadius, double partitionRadius_Hierarchical, float coverageAreaPercentage, float coverageAreaPercentage_Hierarchical, int minNeigh, int64_t seed) : I3DDetector()
+ReLOC::FlatPoints3DDetector::FlatPoints3DDetector(bool random, double radius, double partitionRadius, double excludedPointsRadius, double partitionRadius_Hierarchical, float coverageAreaPercentage, float coverageAreaPercentage_Hierarchical, int minNeigh, unsigned long seed) : I3DDetector()
 {
 	m_minNeigh = minNeigh;
 	m_radius = radius;
@@ -444,9 +444,9 @@ ReLOC::FlatPoints3DDetector::FlatPoints3DDetector(bool random, double radius, do
 
 	m_seed = seed;
 	if(random)
-		srand(time(NULL));
+		randomGenerator.seed(time(NULL));
 	else
-		srand(seed);
+		randomGenerator.seed(m_seed);
 }
 
 ReLOC::FlatPoints3DDetector::FlatPoints3DDetector(FlatPoints3DDetectorParams &params)
@@ -461,9 +461,9 @@ ReLOC::FlatPoints3DDetector::FlatPoints3DDetector(FlatPoints3DDetectorParams &pa
 		
 	m_seed = params.seed;
 	if(params.random)
-		srand(time(NULL));
+		randomGenerator.seed(time(NULL));
 	else
-		srand(params.seed);
+		randomGenerator.seed(params.seed);
 }
 
 ReLOC::FlatPoints3DDetector::~FlatPoints3DDetector()
@@ -472,6 +472,7 @@ ReLOC::FlatPoints3DDetector::~FlatPoints3DDetector()
 
 void ReLOC::FlatPoints3DDetector::extractImpl(vtkPolyData* cloud, Feature3D* & feat, int &numFeatures, int & featCapacity)
 {
+
 	if(m_radius <= 0.0 || m_minNeigh <= 0)
 	{
 		cout << "ERROR (FlatPoints3DDetector::extractImpl(): (m_radius <= 0.0 || m_minNeigh <= 0)";
@@ -557,6 +558,7 @@ void ReLOC::FlatPoints3DDetector::ApplyFlatPointsDetector(vtkPolyData* cloud, st
 	//get polydata point Normals
 	float* ptrNormals = GetPolyDataPointNormalsPointer(cloud);
 
+	std::uniform_int_distribution<int> uniformRandomGenerator(0,n_cloud_points-1);
 
 	float coveragePercentage_best = 0.0f;
 	int numUnselectablePoints_best = 0;
@@ -566,7 +568,7 @@ void ReLOC::FlatPoints3DDetector::ApplyFlatPointsDetector(vtkPolyData* cloud, st
 	while((coveragePercentage_best <= covAreaP) && (coveragePercentage_seed <= covAreaP))
 	{
 		//select a random point
-		int randomNum = rand()%n_cloud_points;
+		int randomNum = uniformRandomGenerator(randomGenerator);
 		int pointIndex = randomNum;
 
 		//if the random point has already been extracted, search for the points at left or right of the random point until find a not-already-selected point
@@ -729,7 +731,7 @@ void ReLOC::FlatPoints3DDetector::ApplyFlatPointsDetector(vtkPolyData* cloud, st
 
 
 
-ReLOC::Random3DDetector::Random3DDetector(int nPoints, bool random, double radius,  int minNeigh, double borderDistance, int64_t seed) : I3DDetector()
+ReLOC::Random3DDetector::Random3DDetector(int nPoints, bool random, double radius,  int minNeigh, double borderDistance, unsigned long seed) : I3DDetector()
 {
 	m_requestedNumFeat = nPoints;
 	m_minNeigh = minNeigh;
@@ -739,9 +741,9 @@ ReLOC::Random3DDetector::Random3DDetector(int nPoints, bool random, double radiu
 
 	m_seed = seed;
 	if(random)
-		srand(time(NULL));
+		randomGenerator.seed(time(NULL));
 	else
-		srand(seed);
+		randomGenerator.seed(m_seed);
 
 }
 
@@ -754,9 +756,9 @@ ReLOC::Random3DDetector::Random3DDetector(RandomDetectorParams params)
 
 	m_seed = params.seed;
 	if(params.random)
-		srand(time(NULL));
+		randomGenerator.seed(time(NULL));
 	else
-		srand(params.seed);
+		randomGenerator.seed(params.seed);
 }
 
 ReLOC::Random3DDetector::~Random3DDetector()
@@ -801,6 +803,8 @@ void ReLOC::Random3DDetector::extractImpl(vtkPolyData* cloud, Feature3D* & feat,
 
 	std::set<int> ids;
 
+	std::uniform_int_distribution<int> uniformRandomGenerator(0,n_cloud_points-1);
+
 	while ( extractedPoints < numFeatures){
 
 
@@ -808,7 +812,7 @@ void ReLOC::Random3DDetector::extractImpl(vtkPolyData* cloud, Feature3D* & feat,
 
 		do
 		{
-			randomNum = rand()%n_cloud_points;
+			randomNum = uniformRandomGenerator(randomGenerator);
 		}
 		while( (checkCurv) && ( *(ptrPrincCurv + 2*randomNum) == std::numeric_limits<double>::infinity() ) );
 
@@ -1853,7 +1857,6 @@ float ReLOC::getLocalRF_FLARE_Sampled_T(vtkPolyData *cloud, KdTree &kdTree, KdTr
 
 	bestShapeScore -= (rfc[6]*featurePoint[0] + rfc[7]*featurePoint[1] + rfc[8]*featurePoint[2]);
 	return bestShapeScore/meshRes;
-
 }
 
 
@@ -2027,7 +2030,6 @@ float ReLOC::getLocalRF_FLARE(vtkPolyData *cloud, KdTree &kdTree, const int inde
 
 	bestShapeScore -= (rfc[6]*featurePoint[0] + rfc[7]*featurePoint[1] + rfc[8]*featurePoint[2]);
 	return bestShapeScore/meshRes;
-
 }
 
 

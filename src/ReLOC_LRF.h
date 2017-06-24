@@ -10,6 +10,8 @@
 #include "vtkPolyData.h"
 #include "vtkPolyDataCollection.h"
 
+#include <random>
+
 
 namespace ReLOC
 {
@@ -92,7 +94,7 @@ namespace ReLOC
 		bool		random;
 		double		radius;
 		double		borderDistance;			///< min distance from the border
-		int64_t		seed;
+		unsigned long 	seed;
 
 		RandomDetectorParams()	// default values
 		{
@@ -110,7 +112,7 @@ namespace ReLOC
 	{
 	public:
 		//Random3DDetector(int nPoints, bool random = false);
-		Random3DDetector(int nPoints, bool random = false, double radius = -1.0,  int minNeigh = 0, double borderDistance = -1.0, int64_t seed = 0xFFFFFFFF); //computes "nPoints" randomly that have at least "minNeigh" neighboring points in a sphere of radius "radius" and that are not closer to any border than "borderDistance"
+		Random3DDetector(int nPoints, bool random = false, double radius = -1.0,  int minNeigh = 0, double borderDistance = -1.0, unsigned long seed = 0xFFFFFFFF); //computes "nPoints" randomly that have at least "minNeigh" neighboring points in a sphere of radius "radius" and that are not closer to any border than "borderDistance"
 		Random3DDetector(RandomDetectorParams params); //computes "nPoints" randomly that have at least "minNeigh" neighboring points in a sphere of radius "radius" and that are not closer to any border than "borderDistance"
 
 		virtual ~Random3DDetector();
@@ -118,10 +120,11 @@ namespace ReLOC
 		virtual void extractImpl(vtkPolyData* cloud, Feature3D* & feat, int & numFeatures, int & descCapacity);
 
 	private:
-		int64_t m_seed;
+		unsigned long m_seed;
 		int m_minNeigh;
 		double m_radius;
 		int m_requestedNumFeat;
+		std::default_random_engine randomGenerator;
 	};
 
 
@@ -153,7 +156,7 @@ namespace ReLOC
 		/** \brief T2search */
 		float			coverageAreaPercentage_Hierarchical;
 
-		int64_t			seed;	
+		unsigned long			seed;	
 
 		FlatPoints3DDetectorParams()	// default values
 		{
@@ -178,7 +181,7 @@ namespace ReLOC
 	class FlatPoints3DDetector : public I3DDetector
 	{			
 	public:
-		FlatPoints3DDetector(bool random = false, double radius = 3, double partitionRadius = 2, double excludedPointsRadius = 2, double partitionRadius_Hierarchical = 20, float coverageAreaPercentage = 0.9f, float coverageAreaPercentage_Hierarchical = 0.9f, int minNeigh = 5, int64_t seed = 0xFFFFFFFF); 
+		FlatPoints3DDetector(bool random = false, double radius = 3, double partitionRadius = 2, double excludedPointsRadius = 2, double partitionRadius_Hierarchical = 20, float coverageAreaPercentage = 0.9f, float coverageAreaPercentage_Hierarchical = 0.9f, int minNeigh = 5, unsigned long seed = 0xFFFFFFFF); 
 		FlatPoints3DDetector(FlatPoints3DDetectorParams &params); 
 
 		void ApplyFlatPointsDetector(vtkPolyData* cloud, std::vector<float> & vFeaturesScore, float exRadius, float partRadius, float covAreaP, std::vector<vtkIdType> & vFeaturePointIndexes);
@@ -188,7 +191,7 @@ namespace ReLOC
 		virtual void extractImpl(vtkPolyData* cloud, Feature3D* & feat, int & numFeatures, int & descCapacity);
 
 	private:
-		int64_t			m_seed;
+		unsigned long			m_seed;
 		int				m_minNeigh;
 
 		/** \brief Rf */
@@ -208,6 +211,8 @@ namespace ReLOC
 
 		/** \brief T2search */
 		float			m_coverageAreaPercentage_Hierarchical;
+
+		std::default_random_engine randomGenerator;
 	};
 
 

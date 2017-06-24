@@ -117,6 +117,10 @@ void ReLOC::ReLOC::PrepareRegistration(vtkPolyDataCollection* cMeshes, const dou
 		{
 			m_ptrDetector->getFeaturesVect().push_back(NULL);
 		}
+		if(m_verbose)
+		{
+			cout << "N feats: " << numFeats << endl;
+		}
 
 	}
 
@@ -213,6 +217,8 @@ vtkTransform* ReLOC::ReLOC::Align(const int idx_trg, const int idx_ref)
 	int nMatches = 0;
 	m_ptrMatcher->setReference(m_vDescs[idx_ref]);
 	nMatches = m_ptrMatcher->match(m_vDescs[idx_trg], matches);			
+	if(m_verbose)
+		cout << "Matches: " << nMatches << endl;
 	if(nMatches == 0)
 	{
 		if(m_verbose)
@@ -248,6 +254,9 @@ vtkTransform* ReLOC::ReLOC::Align(const int idx_trg, const int idx_ref)
 
 	vector<FeatureMatch> houghMatches;
 	ObtainHoughMatches(vMaxima, matches, houghMatches);
+
+	if(m_verbose)
+		cout << "Hough set size: " << houghMatches.size() << endl;
 
 	if(!houghMatches.size())
 	{
