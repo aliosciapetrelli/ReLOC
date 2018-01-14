@@ -165,7 +165,7 @@ int main(int argc, char** argv)
 	
 	//Set parameters of ReLOC
   //ptrReLOCAlgorithm->reLOC.useRandomDetector(true);  // use random detector
-  ptrReLOCAlgorithm->reLOC.setSeed (0xFFFFFFFF);
+  ptrReLOCAlgorithm->reLOC.setSeed (0);
   ptrReLOCAlgorithm->reLOC.setFlatKeypointRf (3.0*meshRes); //5 in the paper
   ptrReLOCAlgorithm->reLOC.setFlatKeypointRdiscard (2.0*meshRes);
   ptrReLOCAlgorithm->reLOC.setFlatKeypointR1search (2.0*meshRes);
